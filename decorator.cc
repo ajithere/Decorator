@@ -67,19 +67,35 @@ public:
 
 };
 
+class FemaleChild : public DecoratorMembers
+{
+public:
+	FemaleChild(const string& _name, IFamilyUnit* p):DecoratorMembers(p){name = _name;}
+	virtual void FamilyMemberNames(){family->FamilyMemberNames(); cout <<"  Child name is "<<name<<endl;}
+	virtual ~FemaleChild(){cout <<"    nuking FemaleChild..."<<endl;}
+
+};
+
 int main ()
 {
 	IFamilyUnit* newlyMarried = new Male("Dumbo", new Female("Dodo", new Family())); 
 	newlyMarried->FamilyMemberNames();
 	cout <<"******************************"<<endl;
 
-	IFamilyUnit* marriedAndHadChild = new Male("Dumbo", new Female("Dodo", new MaleChild("Dumdo", new Family())));
-	marriedAndHadChild->FamilyMemberNames();
+	IFamilyUnit* marriedAndHadAChild = new Male("Dumbo", new Female("Dodo", new MaleChild("Dumdo", new Family())));
+	marriedAndHadAChild->FamilyMemberNames();
+	cout <<"******************************"<<endl;
+
+	IFamilyUnit* marriedAndHadTwoChildren = new Male("Dumbo", new Female("Dodo", new MaleChild("Dumdo", 
+									new FemaleChild("DoDum", new Family()))));
+	marriedAndHadTwoChildren->FamilyMemberNames();
 	cout <<"******************************"<<endl;
 
 	delete newlyMarried;
 	cout <<"******************************"<<endl;
-	delete marriedAndHadChild;
+	delete marriedAndHadAChild;
+	cout <<"******************************"<<endl;
+	delete marriedAndHadTwoChildren;
 
 	return 0;
 }
